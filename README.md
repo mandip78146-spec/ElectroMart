@@ -1,70 +1,149 @@
-# Getting Started with Create React App
+# ElectroMart
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+ElectroMart is a full-stack MERN e-commerce project built for a final-year BCA portfolio and professional showcase. It includes a modern storefront, category browsing, product detail pages, cart, wishlist, checkout, admin panel, and vendor workflows.
 
-## Available Scripts
+## Overview
 
-In the project directory, you can run:
+This project demonstrates a real-world e-commerce flow with:
 
-### `npm start`
+- React frontend with responsive pages and reusable UI patterns
+- Express.js backend with REST API endpoints
+- MongoDB and Mongoose data modeling
+- JWT-based authentication and role checks
+- Product management, cart, wishlist, checkout, reviews, and orders
+- Admin and vendor dashboards
+- File upload support for product and category images
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Features
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- User registration and login
+- Admin access control and dashboard
+- Vendor registration and login
+- Product catalog with categories, brands, and filters
+- Product detail and related product suggestions
+- Wishlist and cart management
+- Checkout and order creation flow
+- Order tracking and status views
+- Reviews and ratings
+- Image upload workflows for catalog data
+- Responsive merchandising UI for desktop and mobile
 
-### `npm test`
+## Tech Stack
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- React
+- React Router
+- Bootstrap
+- Node.js
+- Express.js
+- MongoDB
+- Mongoose
+- JWT
+- bcrypt
+- Multer
+- dotenv
 
-### `npm run build`
+## Folder Structure
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```bash
+project2/
+├── backend/
+│   ├── uploads/
+│   ├── package.json
+│   └── server.js
+├── frontend/
+│   ├── public/
+│   ├── src/
+│   ├── package.json
+│   └── README.md
+├── .env.example
+├── .gitignore
+├── package.json
+├── README.md
+└── package-lock.json
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Environment Variables
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Create a local `.env` file in the project root and set the values you need. A sample is included in `.env.example`.
 
-### `npm run eject`
+```env
+PORT=8000
+MONGO_URI=mongodb://localhost:27017/electrostore
+JWT_SECRET=change_me_in_production
+FRONTEND_URL=http://localhost:3000
+NODE_ENV=development
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Installation
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+1. Clone the repository.
+2. Open the project root.
+3. Install root dependencies:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```bash
+npm install
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+4. Install backend dependencies:
 
-## Learn More
+```bash
+cd backend && npm install
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+5. Install frontend dependencies:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```bash
+cd frontend && npm install
+```
 
-### Code Splitting
+## Running the App
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Start the backend and frontend together:
 
-### Analyzing the Bundle Size
+```bash
+npm run dev
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+The backend runs on port 8000 and the frontend runs on port 3000 by default.
 
-### Making a Progressive Web App
+## API Overview
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Key endpoints include:
 
-### Advanced Configuration
+- `POST /api/register` — user registration
+- `POST /api/login` — user login
+- `POST /api/vendorregister` — vendor registration
+- `POST /api/vlog` — vendor login
+- `GET /api/getproduct` — fetch all products
+- `POST /api/product` — add product
+- `GET /api/getcategory` — fetch categories
+- `POST /api/checkout` — create order
+- `GET /api/myorder/:id` — fetch user's orders
+- `POST /api/reviews` — submit review
+- `GET /api/getreview/:id` — fetch product reviews
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## User Roles
 
-### Deployment
+- User
+- Vendor
+- Admin
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+Role checks are enforced on the backend wherever protected access is required.
 
-### `npm run build` fails to minify
+## Screenshots
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Add screenshots in this section as the project matures.
+
+## Future Improvements
+
+- Payment gateway integration
+- Real admin analytics and more advanced charts
+- Search indexing and product filtering improvements
+- Email verification and password reset flow
+- Deployment setup for Vercel/Render/Railway
+
+## Notes
+
+- Do not commit your `.env` file.
+- Keep secrets out of source control.
+- Use production-safe environment values when deploying.
