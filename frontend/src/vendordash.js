@@ -1,3 +1,4 @@
+import { API_BASE_URL } from "./api";
 
 import { useState, useEffect, useContext, useCallback } from "react"
 import { Context } from "./usecontext"
@@ -30,7 +31,7 @@ export const VendorDashboard = () => {
         });
 
     const show=useCallback(async()=>{
-        const result=await fetch(`http://localhost:8000/api/vendorproduct/${id}`,{
+        const result=await fetch(`${API_BASE_URL}/api/vendorproduct/${id}`,{
             method:"get"
         })
         if(result.ok){
@@ -43,7 +44,7 @@ export const VendorDashboard = () => {
 
    const show2 = useCallback(async () => {
     try {
-        const result = await fetch(`http://localhost:8000/api/vendorrevenue/${id}`, {
+        const result = await fetch(`${API_BASE_URL}/api/vendorrevenue/${id}`, {
             method: "get"
         });
 

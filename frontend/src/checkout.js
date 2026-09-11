@@ -1,6 +1,6 @@
-import { useContext, useEffect, useState } from "react"
+import { API_BASE_URL } from "./api";
+import { useCallback, useEffect, useState } from "react"
 import { getImageUrl } from "./imageUrl"
-import { Context } from "./usecontext"
 import Swal from "sweetalert2"
 import { useLocation, useSearchParams } from "react-router-dom"
 
@@ -23,10 +23,6 @@ export const Check = () => {
     const [idd] = useSearchParams()
     const id = idd.get("id")
 
-    useEffect(() => {
-        show()
-    }, [id])
-
     const save = async () => {
         const items = d.map(item => ({
             ProductName: item.Name,
@@ -36,7 +32,7 @@ export const Check = () => {
             ProBy: item.ProductBy
         }))
         const data = { fname, lname, phn, email, country, state, city, postal, address, id, payment, orderno, totalprice, data: items }
-        const result = await fetch("http://localhost:8000/api/checkout", {
+        const result = await fetch(API_BASE_URL + "/api/checkout", {
             method: "post",
             body: JSON.stringify(data),
             headers: { "Content-type": "application/json;charset=UTF-8" }
@@ -56,8 +52,8 @@ export const Check = () => {
         }
     }
 
-    const show = async () => {
-        const result = await fetch(`http://localhost:8000/api/getcartdata/${id}`, {
+    const show = useCallback(async () => {
+        const result = await fetch(`${API_BASE_URL}/api/getcartdata/${id}`, {
             method: "get"
         })
         if (result.ok) {
@@ -69,9 +65,13 @@ export const Check = () => {
                 alert("nothing in cart")
             }
         }
-    }
+    }, [id])
+
+    useEffect(() => {
+        show()
+    }, [show])
     const deletecart = async () => {
-        const result = await fetch(`http://localhost:8000/api/removecartdata/${id}`, {
+        const result = await fetch(`${API_BASE_URL}/api/removecartdata/${id}`, {
             method: "delete"
         })
         if (result.ok) {

@@ -1,3 +1,4 @@
+import { API_BASE_URL } from "./api";
 import { useCallback, useContext, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import Swal from "sweetalert2"
@@ -13,7 +14,7 @@ export const Wish = () => {
 
     const show = useCallback(async () => {
 
-        const result = await fetch(`http://localhost:8000/api/getwish/${id}`, {
+        const result = await fetch(`${API_BASE_URL}/api/getwish/${id}`, {
             method: "get"
         })
         if (result.ok) {
@@ -33,7 +34,7 @@ export const Wish = () => {
 
     const cart = async (id, name, price, img, value = 1) => {
         const data = { id, name, price, img, value }
-        const result = await fetch("http://localhost:8000/api/cartdata", {
+        const result = await fetch(API_BASE_URL + "/api/cartdata", {
             method: "post",
             body: JSON.stringify(data),
             headers: { "Content-type": "application/json;charset=UTF-8" }
@@ -58,7 +59,7 @@ export const Wish = () => {
 
         if (confirm.isConfirmed) {
 
-            const result = await fetch(`http://localhost:8000/api/deletewish/${id}`, {
+            const result = await fetch(`${API_BASE_URL}/api/deletewish/${id}`, {
                 method: "DELETE"
             });
 

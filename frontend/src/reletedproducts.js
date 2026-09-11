@@ -1,4 +1,5 @@
-import { useState, useEffect, useContext, useRef } from "react"
+import { API_BASE_URL } from "./api";
+import { useCallback, useState, useEffect, useContext, useRef } from "react"
 import { Link, useNavigate, useSearchParams } from "react-router-dom"
 import Swal from "sweetalert2"
 import { Context } from "./usecontext"
@@ -17,16 +18,8 @@ export const Related = () => {
     const prr = pr.get("id")
     const loadedCategory = useRef("");
 
-    useEffect(() => {
-        if (!prr || loadedCategory.current === prr) {
-            return;
-        }
-        loadedCategory.current = prr;
-        show(prr);
-        show2(prr);
-    }, [prr]);
-    const show = async (id) => {
-        const result = await fetch(`http://localhost:8000/api/related/${id}`, {
+    const show = useCallback(async (id) => {
+        const result = await fetch(`${API_BASE_URL}/api/related/${id}`, {
             method: "get"
         })
         if (result.ok) {
@@ -39,10 +32,10 @@ export const Related = () => {
                 alert("error")
             }
         }
-    }
+    }, [])
 
-    const show2 = async () => {
-        const result = await fetch(`http://localhost:8000/api/getbrand/${prr}`, {
+    const show2 = useCallback(async () => {
+        const result = await fetch(`${API_BASE_URL}/api/getbrand/${prr}`, {
             method: "get"
         })
         if (result) {
@@ -54,11 +47,21 @@ export const Related = () => {
                 alert("not")
             }
         }
-    }
+    }, [prr])
+
+    useEffect(() => {
+        if (!prr || loadedCategory.current === prr) {
+            return;
+        }
+        loadedCategory.current = prr;
+        show(prr);
+        show2();
+    }, [prr, show, show2]);
+
     const wish = async (id, name, price, img, prr) => {
         if (!prr || !id) return;
         const data = { id, name, price, img }
-        const result = await fetch(`http://localhost:8000/api/wishpost/${prr}`, {
+        const result = await fetch(`${API_BASE_URL}/api/wishpost/${prr}`, {
             method: "post",
             body: JSON.stringify(data),
             headers: { "Content-type": "application/json;charset=UTF-8" }
@@ -128,7 +131,7 @@ export const Related = () => {
     const cart = async (id, name, price, img, value = 1, prr) => {
         if (!prr || !id) return;
         const data = { id, name, price, img, value }
-        const result = await fetch(`http://localhost:8000/api/cartdata/${prr}`, {
+        const result = await fetch(`${API_BASE_URL}/api/cartdata/${prr}`, {
             method: "post",
             body: JSON.stringify(data),
             headers: { "Content-type": "application/json;charset=UTF-8" }
@@ -164,13 +167,9 @@ export const Related = () => {
                     <img src={headphone} alt="Headphones" height="400" width="100%"></img> 
                     <div className="content" background="red">
                         
-                        <h1 className="title-page"></h1>
-
                         <ul className="breadcrumbs-page list-unstyled d-flex justify-content-center align-items-center gap-2 py-3">
                             <li>
-                                <a href="/" className="h6 link text-decoration-none">
-                                
-                                </a>
+                                <Link to="/" className="h6 link text-decoration-none">Home</Link>
                             </li>
 
                             <li>
@@ -178,9 +177,7 @@ export const Related = () => {
                             </li>
 
                             <li>
-                                <h6 className="current-page fw-normal mb-0">
-                                    
-                                </h6>
+                                <span className="current-page fw-normal mb-0">Related Products</span>
                             </li>
                         </ul>
                     </div>

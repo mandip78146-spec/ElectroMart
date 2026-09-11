@@ -1,3 +1,4 @@
+import { API_BASE_URL } from "./api";
 import { Link } from "react-router-dom"
 import img1 from "./images/ChatGPT Image Feb 11, 2026, 07_41_57 PM.png"
 import logo from "./images/WhatsApp Image 2026-02-12 at 11.08.16 AM.png"
@@ -16,30 +17,11 @@ export const About = () => {
     const [d, setd] = useState([])
     const [loading, setLoading] = useState(true)
 
-    // Team members data
-    const teamMembers = [
-        { id: 1, name: "John Doe", role: "Founder & CEO", image: "team1.jpg" },
-        { id: 2, name: "Jane Smith", role: "Head of Operations", image: "team2.jpg" },
-        { id: 3, name: "Mike Johnson", role: "Customer Support Lead", image: "team3.jpg" }
-    ]
-
     // Testimonials data
     const testimonials = [
         { id: 1, name: "Rajesh K.", review: "Great products and amazing customer service. Highly recommended!", rating: 5 },
         { id: 2, name: "Priya S.", review: "Fast delivery and genuine products. Will shop again!", rating: 5 },
         { id: 3, name: "Amit M.", review: "Best electronics store in town. Competitive prices!", rating: 4 }
-    ]
-
-    // FAQ data
-    const faqs = [
-        { id: 1, question: "What is your return policy?", answer: "We offer 30-day hassle-free returns on all products." },
-        { id: 2, question: "Do you provide warranty?", answer: "Yes, all products come with minimum 1 year warranty." },
-        { id: 3, question: "How long does delivery take?", answer: "Delivery takes 3-5 business days within India." }
-    ]
-
-    // Partner brands
-    const partnerBrands = [
-        "brand1.png", "brand2.png", "brand3.png", "brand4.png", "brand5.png", "brand6.png"
     ]
 
     useEffect(() => {
@@ -51,7 +33,7 @@ export const About = () => {
     }, [])
 
     const show = async () => {
-        const result = await fetch("http://localhost:8000/api/showbrand")
+        const result = await fetch(API_BASE_URL + "/api/showbrand")
 
         if (result.ok) {
             const res = await result.json()
@@ -203,7 +185,7 @@ export const About = () => {
 
                         <div className="col-md-4 mb-4" data-aos="fade-up" >
                             <div className="card team-card w-100 border-0 shadow-sm">
-                                <img src={m1} className="card-img-top rounded-circle mx-auto mt-4" style={{ width: "150px", height: "150px", objectFit: "cover" }} />
+                                <img src={m1} alt="Harry Buttler" className="card-img-top rounded-circle mx-auto mt-4" style={{ width: "150px", height: "150px", objectFit: "cover" }} />
                                 <div className="card-body text-center">
                                     <h5>Harry Buttler</h5>
                                     <p className="text-primary">CEO</p>
@@ -217,7 +199,7 @@ export const About = () => {
                         </div>
                         <div className="col-md-4 mb-4" data-aos="fade-up" >
                             <div className="card team-card w-100 border-0 shadow-sm">
-                                <img src={m2} className="card-img-top rounded-circle mx-auto mt-4" style={{ width: "150px", height: "150px", objectFit: "cover" }} />
+                                <img src={m2} alt="Jane Smith" className="card-img-top rounded-circle mx-auto mt-4" style={{ width: "150px", height: "150px", objectFit: "cover" }} />
                                 <div className="card-body text-center">
                                     <h5>Jane Smith</h5>
                                     <p className="text-primary">Founder</p>
@@ -231,7 +213,7 @@ export const About = () => {
                         </div>
                         <div className="col-md-4 mb-4" data-aos="fade-up" >
                             <div className="card team-card w-100 border-0 shadow-sm">
-                                <img src={m3} className="card-img-top rounded-circle mx-auto mt-4" style={{ width: "150px", height: "150px", objectFit: "cover" }} />
+                                <img src={m3} alt="Aden Joseph" className="card-img-top rounded-circle mx-auto mt-4" style={{ width: "150px", height: "150px", objectFit: "cover" }} />
                                 <div className="card-body text-center">
                                     <h5>Aden Joseph</h5>
                                     <p className="text-primary">Lead Developer</p>

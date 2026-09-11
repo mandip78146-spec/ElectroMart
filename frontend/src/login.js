@@ -1,3 +1,4 @@
+import { API_BASE_URL } from "./api";
 import { useContext, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { clearStoredToken } from "./auth";
@@ -14,7 +15,7 @@ export const Login = () => {
     const login = async (e) => {
         e.preventDefault()
         const data = { email, pass }
-        const result = await fetch("http://localhost:8000/api/login", {
+        const result = await fetch(API_BASE_URL + "/api/login", {
             method: "post",
             body: JSON.stringify(data),
             headers: { "Content-type": "application/json;charset=UTF-8" }

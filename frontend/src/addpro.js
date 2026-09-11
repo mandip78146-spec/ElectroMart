@@ -1,6 +1,7 @@
+import { API_BASE_URL } from "./api";
 
-import { useContext, useEffect, useState } from "react"
-import { useNavigate, useSearchParams } from "react-router-dom"
+import { useCallback, useContext, useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
 import Swal from "sweetalert2"
 import { getImageUrl } from "./imageUrl";
 import { Context } from "./usecontext"
@@ -26,6 +27,21 @@ export const Product = () => {
     const navigate=useNavigate()
 
 
+    const show2 = useCallback(async () => {
+        const result = await fetch(`${API_BASE_URL}/api/getbrand2/${id}`, {
+            method: "get"
+        })
+        if (result) {
+            const res = await result.json()
+            if (res.statuscode === 1) {
+                setdatta(res.data)
+            }
+            else {
+                alert("faileds")
+            }
+        }
+    }, [id])
+
     useEffect(() => {
         show();
         show3()
@@ -34,7 +50,7 @@ export const Product = () => {
         if (id) {
             show2()
         }
-    }, [id])
+    }, [id, show2])
 
     const add = async (e) => {
         e.preventDefault()
@@ -51,7 +67,7 @@ export const Product = () => {
         formData.append("Specifications", specifications);
 
 
-        const result = await fetch("http://localhost:8000/api/product", {
+        const result = await fetch(API_BASE_URL + "/api/product", {
             method: "post",
             body: formData
         })
@@ -72,7 +88,7 @@ export const Product = () => {
     const show = async (e) => {
 
 
-        const result = await fetch("http://localhost:8000/api/getcategory", {
+        const result = await fetch(API_BASE_URL + "/api/getcategory", {
             method: "get"
         })
         if (result) {
@@ -83,24 +99,9 @@ export const Product = () => {
             }
         }
     }
-    const show2 = async () => {
-        const result = await fetch(`http://localhost:8000/api/getbrand2/${id}`, {
-            method: "get"
-        })
-        if (result) {
-            const res = await result.json()
-            if (res.statuscode === 1) {
-
-                setdatta(res.data)
-            }
-            else {
-                alert("faileds")
-            }
-        }
-    }
     const show3 = async () => {
 
-        const result = await fetch("http://localhost:8000/api/getproduct", {
+        const result = await fetch(API_BASE_URL + "/api/getproduct", {
             method: "get"
         })
         if (result.ok) {
@@ -127,7 +128,7 @@ export const Product = () => {
 
         if (confirm.isConfirmed) {
 
-            const result = await fetch(`http://localhost:8000/api/deletepro/${id}`, {
+            const result = await fetch(`${API_BASE_URL}/api/deletepro/${id}`, {
                 method: "DELETE"
             });
 
@@ -179,7 +180,7 @@ export const Product = () => {
         formData2.append("pic", img)
     }
 
-    const result = await fetch(`http://localhost:8000/api/updatepro/${idd}`, {
+    const result = await fetch(`${API_BASE_URL}/api/updatepro/${idd}`, {
         method: "PUT",
         body: formData2
     })

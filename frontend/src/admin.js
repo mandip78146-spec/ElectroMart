@@ -1,4 +1,5 @@
-import { useContext, useEffect, useState } from "react"
+import { API_BASE_URL } from "./api";
+import { useCallback, useContext, useEffect, useState } from "react"
 import { Context } from "./usecontext"
 import { useNavigate } from "react-router-dom"
 import { getAuthHeaders, clearStoredToken } from "./auth"
@@ -13,12 +14,8 @@ export const Admin = () => {
 
 
 
-    useEffect(() => {
-        show()
-    }, [])
-
-    const show = async () => {
-        const result = await fetch("http://localhost:8000/api/users", {
+    const show = useCallback(async () => {
+        const result = await fetch(API_BASE_URL + "/api/users", {
             method: "get",
             headers: getAuthHeaders()
         })
@@ -36,11 +33,15 @@ export const Admin = () => {
                 alert("sfdfg")
             }
         }
-    }
+    }, [navigate])
+
+    useEffect(() => {
+        show()
+    }, [show])
     const admin = async (id) => {
 
         const data = { ad }
-        const result = await fetch(`http://localhost:8000/api/makeadmin/${id}`, {
+        const result = await fetch(`${API_BASE_URL}/api/makeadmin/${id}`, {
             method: "put",
             body: JSON.stringify(data),
             headers: { ...getAuthHeaders(), "Content-type": "application/json;charset=UTF-8" }
@@ -58,7 +59,7 @@ export const Admin = () => {
     }
     const changeStatus = async (id) => {
         const data = { status }
-        const result = await fetch(`http://localhost:8000/api/changestatus/${id}`, {
+        const result = await fetch(`${API_BASE_URL}/api/changestatus/${id}`, {
             method: "put",
             body: JSON.stringify(data),
             headers: { ...getAuthHeaders(), "Content-type": "application/json;charset=UTF-8" }

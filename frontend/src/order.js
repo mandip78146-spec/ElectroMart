@@ -1,4 +1,5 @@
-import { useContext, useEffect, useState } from "react"
+import { API_BASE_URL } from "./api";
+import { useCallback, useContext, useEffect, useState } from "react"
 import "bootstrap/dist/js/bootstrap.bundle.min.js"
 import { Link } from "react-router-dom"
 import { Context } from "./usecontext"
@@ -7,18 +8,18 @@ export const Order = () => {
     const [d, setd] = useState([])
     const { id } = useContext(Context)
 
-    useEffect(() => {
-        show()
-    }, [id])
-
-    const show = async () => {
-        const result = await fetch(`http://localhost:8000/api/myorder/${id}`)
+    const show = useCallback(async () => {
+        const result = await fetch(`${API_BASE_URL}/api/myorder/${id}`)
         const res = await result.json()
 
         if (res.statuscode === 1) {
             setd(res.data)
         }
-    }
+    }, [id])
+
+    useEffect(() => {
+        show()
+    }, [show])
 
     return (
         <>

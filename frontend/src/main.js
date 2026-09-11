@@ -1,6 +1,7 @@
+import { API_BASE_URL } from "./api";
 
 import { useContext, useEffect, useRef, useState, } from 'react'
-import { Link, useNavigate, useSearchParams } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import banner1 from './images/banner1.png'
 import banner2 from './images/banner2.png'
 import banner3 from './images/banner3.png'
@@ -15,13 +16,11 @@ export const Main = () => {
     const [spro, setspro] = useState([])
     const [lpro, setlpro] = useState([])
     const [br, setbr] = useState([])
-    const [idd, setidd] = useState()
     const [laptop, setlaptop] = useState([])
     const [mobile, setmobile] = useState([])
     const [led, setled] = useState([])
     const [airpod, setairpod] = useState([])
     const { id } = useContext(Context)
-    const [discount, setdiscount] = useState("")
     const [showTop, setShowTop] = useState(false);
     const homepageLoaded = useRef(false);
 
@@ -93,14 +92,13 @@ export const Main = () => {
 
 
     const show = async () => {
-        const result = await fetch("http://localhost:8000/api/getcategory", {
+        const result = await fetch(API_BASE_URL + "/api/getcategory", {
             method: "get"
         })
         if (result) {
             const res = await result.json()
             if (res.statuscode === 1) {
                 setd(res.data)
-                setidd(res.data[0]?.Category)
             }
             else {
                 alert("sfs")
@@ -108,7 +106,7 @@ export const Main = () => {
         }
     }
     const show2 = async () => {
-        const result = await fetch("http://localhost:8000/api/saleproduct", {
+        const result = await fetch(API_BASE_URL + "/api/saleproduct", {
             method: "get"
         })
         if (result.ok) {
@@ -123,7 +121,7 @@ export const Main = () => {
         }
     }
     const show3 = async () => {
-        const result = await fetch("http://localhost:8000/api/latestproduct", {
+        const result = await fetch(API_BASE_URL + "/api/latestproduct", {
             method: "get"
         })
         if (result.ok) {
@@ -137,7 +135,7 @@ export const Main = () => {
         }
     }
     const show4 = async () => {
-        const result = await fetch("http://localhost:8000/api/showbrand", {
+        const result = await fetch(API_BASE_URL + "/api/showbrand", {
             method: "get"
         })
         if (result) {
@@ -151,7 +149,7 @@ export const Main = () => {
         }
     }
     const show5 = async () => {
-        const result = await fetch(`http://localhost:8000/api/laptop`, {
+        const result = await fetch(`${API_BASE_URL}/api/laptop`, {
             method: "get"
         })
         if (result.ok) {
@@ -166,7 +164,7 @@ export const Main = () => {
         }
     }
     const show6 = async () => {
-        const result = await fetch("http://localhost:8000/api/mobiles", {
+        const result = await fetch(API_BASE_URL + "/api/mobiles", {
             method: "get"
         })
         if (result) {
@@ -180,7 +178,7 @@ export const Main = () => {
         }
     }
     const show7 = async () => {
-        const result = await fetch("http://localhost:8000/api/leds", {
+        const result = await fetch(API_BASE_URL + "/api/leds", {
             method: "get"
         })
         if (result) {
@@ -194,7 +192,7 @@ export const Main = () => {
         }
     }
     const show8 = async () => {
-        const result = await fetch("http://localhost:8000/api/airpods", {
+        const result = await fetch(API_BASE_URL + "/api/airpods", {
             method: "get"
         })
         if (result) {
@@ -219,7 +217,7 @@ export const Main = () => {
             return
         }
         const data = { id, name, price, img, saleprice }
-        const result = await fetch(`http://localhost:8000/api/wishpost/${prr}`, {
+        const result = await fetch(`${API_BASE_URL}/api/wishpost/${prr}`, {
             method: "post",
             body: JSON.stringify(data),
             headers: { "Content-type": "application/json;charset=UTF-8" }
@@ -261,7 +259,7 @@ export const Main = () => {
         }
         if (!prr || !id) return;
         const data = { id, name, price, img, value, proby }
-        const result = await fetch(`http://localhost:8000/api/cartdata/${prr}`, {
+        const result = await fetch(`${API_BASE_URL}/api/cartdata/${prr}`, {
             method: "post",
             body: JSON.stringify(data),
             headers: { "Content-type": "application/json;charset=UTF-8" }

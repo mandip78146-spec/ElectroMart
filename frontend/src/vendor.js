@@ -1,3 +1,4 @@
+import { API_BASE_URL } from "./api";
 import { useState } from "react"
 
 export const Vendor = () => {
@@ -14,7 +15,7 @@ export const Vendor = () => {
 const register=async(e)=>{
     e.preventDefault();
     const data={name,uname,email,phn,pass,bank,city,state}
-    const result = await fetch("http://localhost:8000/api/vendorregister",{
+    const result = await fetch(API_BASE_URL + "/api/vendorregister",{
         method:"post",
         body:JSON.stringify(data),
         headers:{"Content-type":"application/json;charset=UTF-8"}

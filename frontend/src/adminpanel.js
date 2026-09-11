@@ -1,4 +1,5 @@
-import { useContext, useEffect, useState } from "react"
+import { API_BASE_URL } from "./api";
+import { useCallback, useContext, useEffect, useState } from "react"
 
 import { Chart as ChartJs, ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement, Title, PointElement, LineElement } from "chart.js"
 import { Bar, Pie, Line } from 'react-chartjs-2'
@@ -33,8 +34,6 @@ export const Dashboard = () => {
     const [totaladmin, setadmin] = useState(0)
     const [ondelivery, setondelivery] = useState(0)
     const [bycredit, setcredit] = useState(0)
-    const [saledata, setsaledata] = useState(0)
-    const [total, settotal] = useState("")
     const [vdata,setvdata]=useState([])
     const [status,setstatus]=useState("")
     const {utype}=useContext(Context)
@@ -46,7 +45,7 @@ export const Dashboard = () => {
     });
 
     useEffect(() => {
-        fetch("http://localhost:8000/api/sales/monthly", { headers: getAuthHeaders() })
+        fetch(API_BASE_URL + "/api/sales/monthly", { headers: getAuthHeaders() })
             .then(res => res.json())
             .then(data => {
                 setMonthlyData({
@@ -64,17 +63,8 @@ export const Dashboard = () => {
     }, []);
 
 
-    useEffect(() => {
-        show();
-        show2();
-        show3();
-        show4();
-        show5();
-show6()
-    }, [])
-
-    const show = async () => {
-        const result = await fetch("http://localhost:8000/api/users", {
+    const show = useCallback(async () => {
+        const result = await fetch(API_BASE_URL + "/api/users", {
         method: "get",
         headers: getAuthHeaders()
         })
@@ -95,9 +85,18 @@ show6()
                 alert("error")
             }
         }
-    }
+    }, [navigate])
+
+    useEffect(() => {
+        show();
+        show2();
+        show3();
+        show4();
+        show5();
+        show6()
+    }, [show])
     const show2 = async () => {
-        const result = await fetch("http://localhost:8000/api/getcategory", {
+        const result = await fetch(API_BASE_URL + "/api/getcategory", {
             method: "get"
         })
         if (result) {
@@ -111,7 +110,7 @@ show6()
         }
     }
     const show3 = async () => {
-        const result = await fetch("http://localhost:8000/api/getproduct", {
+        const result = await fetch(API_BASE_URL + "/api/getproduct", {
             method: "get"
         })
         if (result) {
@@ -125,7 +124,7 @@ show6()
         }
     }
     const show4 = async () => {
-        const result = await fetch("http://localhost:8000/api/showbrand", {
+        const result = await fetch(API_BASE_URL + "/api/showbrand", {
             method: "get"
         })
         if (result) {
@@ -188,7 +187,7 @@ show6()
     };
 
     const show5 = async () => {
-        const result = await fetch("http://localhost:8000/api/orderdata", {
+        const result = await fetch(API_BASE_URL + "/api/orderdata", {
             method: "get",
             headers: getAuthHeaders()
         })
@@ -199,8 +198,6 @@ show6()
                 settotalorder(res.data.length)
                 const bycash = res.data.filter((a) => a.Payment === "Cash on Delivery")
                 const bycard = res.data.filter((a) => a.Payment === "Credit Card")
-                const sale = res.data.filter((a) => a.Date === "xfdg")
-                setsaledata(sale)
                 setondelivery(bycash.length)
                 setcredit(bycard.length)
 
@@ -213,7 +210,7 @@ show6()
     }
 
     const show6=async()=>{
-        const result=await fetch("http://localhost:8000/api/vendordata",{
+        const result=await fetch(API_BASE_URL + "/api/vendordata",{
             method:"get",
             headers: getAuthHeaders()
         })
@@ -229,7 +226,7 @@ show6()
     }
 
     const approval=async(id)=>{
-        const result=await fetch(`http://localhost:8000/api/approval/${id}`,{
+        const result=await fetch(`${API_BASE_URL}/api/approval/${id}`,{
             method:"put",
             headers:{
                 ...getAuthHeaders(),
@@ -391,6 +388,7 @@ show6()
                                                     <div key={idx} className="d-flex align-items-center gap-3 mb-2">
                                                         <img
                                                             src={getImageUrl(item.Img)}
+                                                            alt={item.ProductName || "Product"}
                                                             width="50"
                                                             height="50"
                                                             className="rounded"

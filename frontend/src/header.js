@@ -1,3 +1,4 @@
+import { API_BASE_URL } from "./api";
 import { Link, useNavigate } from "react-router-dom"
 import { useContext, useState, useEffect ,useRef} from "react"
 import Swal from "sweetalert2";
@@ -8,7 +9,6 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 export const Header = () => {
     const [flag, setflag] = useState(false);
     const { id, setid } = useContext(Context)
-    const { setutype } = useContext(Context)
      const[d,setd]=useState([])
     const searchRef = useRef(null);
     const [search,setsearch] = useState("")
@@ -28,7 +28,7 @@ export const Header = () => {
     },[search])
 
     const handleSearch = async () => {
-        const result = await fetch(`http://localhost:8000/api/getproduct`, {
+        const result = await fetch(`${API_BASE_URL}/api/getproduct`, {
             method: "get"
         })
         if (result.ok) {
@@ -158,14 +158,14 @@ export const Header = () => {
 
 
                             <li className="nav-item dropdown">
-                                <a
+                                <button
+                                    type="button"
                                     className="nav-link dropdown-toggle"
-                                    role="button"
                                     data-bs-toggle="dropdown"
                                     aria-expanded="false"
                                 >
                                     Features
-                                </a>
+                                </button>
                               <ul className="dropdown-menu shadow-sm">
     <li>
         <Link to="/about" className="dropdown-item">
@@ -189,14 +189,14 @@ export const Header = () => {
 
                             {/* ACCOUNT */}
                             <li className="nav-item dropdown">
-                                <a
+                                <button
+                                    type="button"
                                     className="nav-link dropdown-toggle"
-                                    role="button"
                                     data-bs-toggle="dropdown"
                                     aria-expanded="false"
                                 >
                                     Account
-                                </a>
+                                </button>
                                 <ul className="dropdown-menu dropdown-menu-end shadow-sm">
                                     <li>
                                         {flag ? <>

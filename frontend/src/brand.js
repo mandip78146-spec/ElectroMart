@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState } from "react"
+import { API_BASE_URL } from "./api";
+import { useCallback, useEffect, useRef, useState } from "react"
 import { Link } from "react-router-dom"
 import { useSearchParams } from "react-router-dom"
 import { getImageUrl } from "./imageUrl"
@@ -11,16 +12,8 @@ export const Brand = () => {
   const prr = pr.get("id")
   const loadedBrand = useRef("");
 
-  useEffect(() => {
-    if (!prr || loadedBrand.current === prr) {
-      return;
-    }
-    loadedBrand.current = prr;
-    show()
-  }, [prr])
-
-  const show = async () => {
-    const result = await fetch(`http://localhost:8000/api/brand/${prr}`, {
+  const show = useCallback(async () => {
+    const result = await fetch(`${API_BASE_URL}/api/brand/${prr}`, {
       method: "get"
     })
     if (result.ok) {
@@ -33,8 +26,15 @@ export const Brand = () => {
         alert("no")
       }
     }
+  }, [prr])
 
-  }
+  useEffect(() => {
+    if (!prr || loadedBrand.current === prr) {
+      return;
+    }
+    loadedBrand.current = prr;
+    show()
+  }, [prr, show])
 
 
   return (

@@ -1,3 +1,4 @@
+import { API_BASE_URL } from "./api";
 import { useContext, useEffect, useState } from "react"
 import { Context } from "./usecontext"
 import { useNavigate } from "react-router-dom"
@@ -23,7 +24,7 @@ export const Category = () => {
     const formdata = new FormData()
     formdata.append("name", name)
     formdata.append("pic", img)
-    const result = await fetch("http://localhost:8000/api/category", {
+    const result = await fetch(API_BASE_URL + "/api/category", {
       method: "post",
       body: formdata
     })
@@ -43,7 +44,7 @@ export const Category = () => {
     formdata2.append("brandname", brandname)
     formdata2.append("pic", brandimg)
     formdata2.append("category", category)
-    const result = await fetch("http://localhost:8000/api/brand", {
+    const result = await fetch(API_BASE_URL + "/api/brand", {
       method: "post",
       body: formdata2,
     })
@@ -58,7 +59,7 @@ export const Category = () => {
     }
   }
   const show = async () => {
-    const result = await fetch("http://localhost:8000/api/getcategory", {
+    const result = await fetch(API_BASE_URL + "/api/getcategory", {
       method: "get"
     })
     if (result.ok) {

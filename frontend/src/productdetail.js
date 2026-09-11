@@ -1,4 +1,5 @@
-import { useContext, useEffect, useRef, useState } from "react"
+import { API_BASE_URL } from "./api";
+import { useCallback, useContext, useEffect, useRef, useState } from "react"
 import { Link, useNavigate, useSearchParams } from "react-router-dom"
 import { Rating } from 'react-simple-star-rating'
 import Swal from "sweetalert2"
@@ -6,7 +7,6 @@ import { Context } from "./usecontext"
 import { getImageUrl } from "./imageUrl"
 
 export const Detail = () => {
-    const [pro, setpro] = useState("")
     const [value, setvalue] = useState(1)
     const [img, setimg] = useState()
     const [name, setname] = useState("")
@@ -15,7 +15,6 @@ export const Detail = () => {
     const [detail, setdetail] = useState("")
     const [specs, setSpecs] = useState("")
     const { id } = useContext(Context)
-    const [idd, setidd] = useState("")
     const [rela, setrela] = useState([])
     const [pr] = useSearchParams()
     const prr = pr.get("id")
@@ -29,19 +28,8 @@ export const Detail = () => {
     const navigate = useNavigate()
     const [activeTab, setActiveTab] = useState("specifications");
     const loadedProduct = useRef("");
-    useEffect(() => {
-        const requestKey = `${prr || ""}:${catidd || ""}`;
-        if (!prr || !catidd || loadedProduct.current === requestKey) {
-            return;
-        }
-        loadedProduct.current = requestKey;
-        show();
-        show2()
-        showreview()
-    }, [prr, catidd])
-
-    const show = async () => {
-        const result = await fetch(`http://localhost:8000/api/detail/${prr}`, {
+    const show = useCallback(async () => {
+        const result = await fetch(`${API_BASE_URL}/api/detail/${prr}`, {
             method: "get"
         })
         if (result.ok) {
@@ -50,20 +38,18 @@ export const Detail = () => {
                 setname(res.data.ProductName)
                 setprice(res.data.ProductPrice)
                 setsaleprice(res.data.SalePrice)
-                setpro(res.data.Category)
                 setdetail(res.data.ProductDetail)
                 setimg(res.data.Img)
                 setSpecs(res.data.Specifications)
-                setidd(id)
             }
             else {
                 alert("not")
             }
         }
-    }
+    }, [prr])
     const goto = async () => {
         const data = { value, img, name, price, id, prr }
-        const result = await fetch(`http://localhost:8000/api/cartdata/${prr}`, {
+        const result = await fetch(`${API_BASE_URL}/api/cartdata/${prr}`, {
             method: "post",
             body: JSON.stringify(data),
             headers: { "Content-type": "application/json;charset=UTF-8" }
@@ -91,8 +77,8 @@ export const Detail = () => {
         }
     }
 
-    const show2 = async () => {
-        const result = await fetch(`http://localhost:8000/api/relatedtwo/${catidd}`, {
+    const show2 = useCallback(async () => {
+        const result = await fetch(`${API_BASE_URL}/api/relatedtwo/${catidd}`, {
             method: "get"
         })
         if (result.ok) {
@@ -104,11 +90,11 @@ export const Detail = () => {
         else {
             alert("not any")
         }
-    }
+    }, [catidd])
 
     const wish = async () => {
         const data = { img, name, price, id, }
-        const result = await fetch(`http://localhost:8000/api/wishpost/${prr}`, {
+        const result = await fetch(`${API_BASE_URL}/api/wishpost/${prr}`, {
             method: "post",
             body: JSON.stringify(data),
             headers: { "Content-type": "application/json;charset=UTF-8" }
@@ -141,7 +127,7 @@ export const Detail = () => {
     }
     const wish2 = async (id, name, price, img, prr) => {
         const data = { id, name, price, img }
-        const result = await fetch(`http://localhost:8000/api/wishpost/${prr}`, {
+        const result = await fetch(`${API_BASE_URL}/api/wishpost/${prr}`, {
             method: "post",
             body: JSON.stringify(data),
             headers: { "Content-type": "application/json;charset=UTF-8" }
@@ -171,7 +157,7 @@ export const Detail = () => {
     }
     const cart = async (id, name, price, img, value = 1, prr, proby) => {
         const data = { id, name, price, img, value, proby }
-        const result = await fetch(`http://localhost:8000/api/cartdata/${prr}`, {
+        const result = await fetch(`${API_BASE_URL}/api/cartdata/${prr}`, {
             method: "post",
             body: JSON.stringify(data),
             headers: { "Content-type": "application/json;charset=UTF-8" }
@@ -205,7 +191,7 @@ export const Detail = () => {
     const send = async (e) => {
         e.preventDefault()
         const data = { username, mail, prr, rating, msg }
-        const result = await fetch("http://localhost:8000/api/reviews", {
+        const result = await fetch(API_BASE_URL + "/api/reviews", {
             method: "post",
             body: JSON.stringify(data),
             headers: { "Content-type": "application/json;charset=UTF-8" }
@@ -228,8 +214,8 @@ export const Detail = () => {
             }
         }
     }
-    const showreview = async () => {
-        const result = await fetch(`http://localhost:8000/api/getreview/${prr}`, {
+    const showreview = useCallback(async () => {
+        const result = await fetch(`${API_BASE_URL}/api/getreview/${prr}`, {
             method: "get"
         })
         if (result) {
@@ -241,8 +227,18 @@ export const Detail = () => {
                 alert("fgh")
             }
         }
-    }
+    }, [prr])
 
+    useEffect(() => {
+        const requestKey = `${prr || ""}:${catidd || ""}`;
+        if (!prr || !catidd || loadedProduct.current === requestKey) {
+            return;
+        }
+        loadedProduct.current = requestKey;
+        show();
+        show2()
+        showreview()
+    }, [prr, catidd, show, show2, showreview])
 
 
     return (
@@ -527,7 +523,6 @@ export const Detail = () => {
             </div>
 
             <section className="container mt-2 py-4">
-                <h2 className="fw-bold text-center mb-4"></h2>
                 <div className="row g-4 py-5">
                     <div className="col-md-3 col-6 text-center">
                         <i className="bi bi-truck fs-1 text-primary"></i>

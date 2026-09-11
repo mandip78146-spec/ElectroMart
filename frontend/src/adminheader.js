@@ -88,14 +88,14 @@ export const AdminHeader = () => {
 
 
                             <li className="nav-item dropdown">
-                                <a
+                                <button
+                                    type="button"
                                     className="nav-link dropdown-toggle"
-                                    role="button"
                                     data-bs-toggle="dropdown"
                                     aria-expanded="false"
                                 >
                                     Account
-                                </a>
+                                </button>
                                 <ul className="dropdown-menu dropdown-menu-end shadow-sm text-center ">
                                     <li>
                                         {flag ? <>

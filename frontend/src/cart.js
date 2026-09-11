@@ -1,7 +1,8 @@
-import { useContext, useEffect, useState } from "react"
+import { API_BASE_URL } from "./api";
+import { useCallback, useContext, useEffect, useState } from "react"
 import { Context } from "./usecontext"
 import Swal from "sweetalert2"
-import { useNavigate, useSearchParams } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { getImageUrl } from "./imageUrl"
 
 export const Cart = () => {
@@ -10,18 +11,14 @@ export const Cart = () => {
     const { id } = useContext(Context)
     const navigate = useNavigate()
     useEffect(() => {
-        show()
-    }, [id])
-
-    useEffect(() => {
         const total = d.reduce(
             (acc, item) => acc + (item.Quantity) * (item.Price), 0
         )
         setprice(total)
-    })
+    }, [d])
 
-    const show = async () => {
-        const result = await fetch(`http://localhost:8000/api/getcartdata/${id}`, {
+    const show = useCallback(async () => {
+        const result = await fetch(`${API_BASE_URL}/api/getcartdata/${id}`, {
             method: "get"
         })
         if (result.ok) {
@@ -31,7 +28,11 @@ export const Cart = () => {
                 setd(res.data)
             }
         }
-    }
+    }, [id])
+
+    useEffect(() => {
+        show()
+    }, [show])
     const qty = (index, change) => {
         const value = [...d]
         const newQty = value[index].Quantity + change
@@ -55,7 +56,7 @@ export const Cart = () => {
 
         if (confirm.isConfirmed) {
 
-            const result = await fetch(`http://localhost:8000/api/remove/${id}`, {
+            const result = await fetch(`${API_BASE_URL}/api/remove/${id}`, {
                 method: "DELETE"
             });
 

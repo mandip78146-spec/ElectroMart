@@ -1,7 +1,7 @@
+import { API_BASE_URL } from "./api";
 import { useState } from "react"
 import img1 from "./images/img_01.jpg"
 import img2 from "./images/contact.jpg"
-import img3 from "./images/contactus.jpg"
  
 export const Contact = () => {
     const [name, setname] = useState("")
@@ -12,7 +12,7 @@ export const Contact = () => {
 
     const send = async () => {
         const data = { name, mail, phn, type, msg }
-        const result = await fetch("http://localhost:8000/api/response", {
+        const result = await fetch(API_BASE_URL + "/api/response", {
             method: "post",
             body: JSON.stringify(data),
             headers: { "Content-type": "application/json;charset=UTF-8" }
@@ -67,7 +67,7 @@ export const Contact = () => {
                             <p className="fs-4 d-flex gap-5 align-items-center"><strong className="fw-bolder fs-3">Social Media:</strong><i className="bi bi-instagram"></i><i className="bi bi-facebook"></i><i className="bi bi-messenger"></i><i className="bi bi-twitter-x"></i></p>
                         </div>
                         <div className="col">
-                            <img width="450px" src={img2}></img>
+                            <img width="450px" src={img2} alt="ElectroMart store" />
                         </div>
                     </div>
                 </div>
@@ -75,14 +75,14 @@ export const Contact = () => {
 
             <section className="container mt-2">
                 <div className="wg-map d-flex py-5">
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7880.148272329334!2d151.20657421407668!3d-33.858885268389294!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6b12ae682c546039%3A0x16da940d587922a1!2sCircular%20Quay!5e0!3m2!1sen!2s!4v1745205798630!5m2!1sen!2s" width="100%" height="461" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    <iframe title="ElectroMart store location" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7880.148272329334!2d151.20657421407668!3d-33.858885268389294!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6b12ae682c546039%3A0x16da940d587922a1!2sCircular%20Quay!5e0!3m2!1sen!2s!4v1745205798630!5m2!1sen!2s" width="100%" height="461" allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
                 </div>
             </section>
             <section>
                 <div className="container">
                     <div className="row  g-5">
                         <div className="col-lg-5 py-5">
-                            <img src={img1}></img>
+                            <img src={img1} alt="ElectroMart contact" />
                         </div>
                         <div className="col py-5">
                             <div className="card w-100 border-0 mt-2  ">

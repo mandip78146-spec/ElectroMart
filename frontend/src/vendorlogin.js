@@ -1,3 +1,4 @@
+import { API_BASE_URL } from "./api";
 import { useContext, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import Swal from "sweetalert2"
@@ -12,7 +13,7 @@ export const VendorLogin = () => {
 
     const login = async (e) => {
         e.preventDefault()
-        const result = await fetch("http://localhost:8000/api/vlog", {
+        const result = await fetch(API_BASE_URL + "/api/vlog", {
             method: "post",
             body: JSON.stringify({ email, pass }),
             headers: { "Content-type": "application/json;charset=UTF-8" }

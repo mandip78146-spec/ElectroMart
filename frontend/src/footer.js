@@ -19,7 +19,7 @@ export const Footer = () => {
 
                     
                         <div className="col-lg-3 col-6 col-md-6">
-                           <img height="70px" src={logo}></img>
+                           <img height="70px" src={logo} alt="ElectroMart logo" />
                             <p className="text-muted">
                                 We are here to serve you
                             </p>
@@ -90,11 +90,11 @@ export const Footer = () => {
                     
                         <div className="col-md-4 text-center text-md-end">
                             <div className="d-flex justify-content-center justify-content-md-end gap-2">
-                                <img src={card1} width="50" />
-                                <img src={card2} width="50" />
-                                <img src={card3} width="50" />
-                                <img src={card4} width="50" />
-                                <img src={card5} width="50" />
+                                <img src={card1} width="50" alt="American Express" />
+                                <img src={card2} width="50" alt="PayPal" />
+                                <img src={card3} width="50" alt="Mastercard" />
+                                <img src={card4} width="50" alt="Visa" />
+                                <img src={card5} width="50" alt="Discover" />
                             </div>
                         </div>
 
