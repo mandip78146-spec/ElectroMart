@@ -1,5 +1,5 @@
-import { useContext, useEffect, useState } from "react"
-import { Link, useNavigate, useSearchParams } from "react-router-dom"
+import { useCallback, useContext, useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
 import Swal from "sweetalert2"
 import { getImageUrl } from "./imageUrl"
 import { Context } from "./usecontext"
@@ -11,11 +11,7 @@ export const Wish = () => {
     const { id } = useContext(Context)
     const navigate = useNavigate()
 
-    useEffect(() => {
-        show()
-    }, [id])
-
-    const show = async (e) => {
+    const show = useCallback(async () => {
 
         const result = await fetch(`http://localhost:8000/api/getwish/${id}`, {
             method: "get"
@@ -29,7 +25,11 @@ export const Wish = () => {
                 alert("ojoj")
             }
         }
-    }
+    }, [id])
+
+    useEffect(() => {
+        show()
+    }, [id, show])
 
     const cart = async (id, name, price, img, value = 1) => {
         const data = { id, name, price, img, value }

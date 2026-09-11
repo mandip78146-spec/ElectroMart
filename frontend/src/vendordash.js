@@ -1,9 +1,9 @@
 
-import { useState, useEffect, useContext } from "react"
+import { useState, useEffect, useContext, useCallback } from "react"
 import { Context } from "./usecontext"
 import { getImageUrl } from "./imageUrl"
 import { Chart as ChartJs, ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement, Title, PointElement, LineElement } from "chart.js"
-import { Bar, Pie, Line } from 'react-chartjs-2'
+import { Line } from 'react-chartjs-2'
 
 ChartJs.register(
     CategoryScale,
@@ -29,16 +29,7 @@ export const VendorDashboard = () => {
             datasets: []
         });
 
-    useEffect(()=>{
-        if(id){
-            show()
-        show2()
-        }
-    
-    },[id])
-
-
-    const show=async()=>{
+    const show=useCallback(async()=>{
         const result=await fetch(`http://localhost:8000/api/vendorproduct/${id}`,{
             method:"get"
         })
@@ -48,9 +39,9 @@ export const VendorDashboard = () => {
                 setd(res.data)
             }
         }
-    }
+    },[id])
 
-   const show2 = async () => {
+   const show2 = useCallback(async () => {
     try {
         const result = await fetch(`http://localhost:8000/api/vendorrevenue/${id}`, {
             method: "get"
@@ -83,7 +74,15 @@ export const VendorDashboard = () => {
     } catch (err) {
         console.error("Fetch failed:", err);
     }
-};
+},[id]);
+
+    useEffect(()=>{
+        if(id){
+            show()
+        show2()
+        }
+    
+    },[id, show, show2])
 
     return(
         <>

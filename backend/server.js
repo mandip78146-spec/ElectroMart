@@ -1,5 +1,6 @@
 require('dns').setDefaultResultOrder('ipv4first');
 require('dotenv').config();
+require('dns').setDefaultResultOrder('ipv4first'); require('dns').setServers(['8.8.8.8', '1.1.1.1']); require('dotenv').config();
 
 const mongoose = require('mongoose')
 const cors = require('cors')
@@ -38,17 +39,18 @@ app.use('/uploads', express.static(path.join(__dirname, '..', 'frontend', 'publi
 // ---------- MongoDB Local connection section ----------
 const connectDB = async () => {
     try {
-        await mongoose.connect("mongodb://localhost:27017/electrostore", {
+        await mongoose.connect(process.env.MONGO_URI, {
             serverSelectionTimeoutMS: 30000,
             connectTimeoutMS: 30000,
             socketTimeoutMS: 45000,
             maxPoolSize: 10
-        })
-        console.log("MongoDB Connected Successfully (Local)")
+        });
+
+        console.log("MongoDB Connected Successfully (Atlas)");
     } catch (error) {
-        console.error("MongoDB connection error:", error.message)
+        console.error("MongoDB connection error:", error.message);
     }
-}
+};
 
 connectDB()
 // ---------- End MongoDB connection section ----------
